@@ -1,5 +1,6 @@
 import { BattlePlayer } from '../player/types';
 import { Pokemon } from '../pokemon/types';
+import { TurnMessage,TimelineAction } from '../timeline/types';
 
 export enum ScenarioType {
   BOTH_BAIT    = 'both_bait',
@@ -35,4 +36,59 @@ export enum DecisionOptionType {
 export type DecisionOption = {
   decisionType: DecisionOptionType
   weight: number
+}
+
+export enum BattleMode { SIMULATE = 'simulate', EMULATE = 'emulate' }
+export enum BattleEndCondition { FIRST_FAINT = 'first', BOTH_FAINT = 'both' }
+
+export type BattleRating = {}
+export type BattlePhase  = {}
+export enum BattlePhaseProperty {}
+
+type PhaseTimeoutFunction = () => void
+
+export type Battle = {
+  pokemon: [Pokemon, Pokemon]
+  players: [BattlePlayer, BattlePlayer]
+  turnMessages: [TurnMessage]
+  // turnAnimations: [Animation] /* FIXME */
+  turnActions: [TimelineAction]
+  queuedActions: [TimelineAction]
+  automated: boolean /* In PvPoke this is "sandbox" mode */
+
+  timeline: [TimelineAction]
+  time: number
+  turns: number
+  lastTurn: number
+  deltaTime: number
+
+  duration: number
+  battleRatings: [BattleRating]
+  turnsToWin: number
+  winner: BattlePlayer
+
+  battleEndCondition: BattleEndCondition
+  phase: BattlePhase
+  phaseProps: [BattlePhaseProperty]
+  phaseTimeout: PhaseTimeoutFunction
+  mainLoopInterval: number
+  isPaused: boolean
+  sixtySecondMarked: boolean
+
+  roundChargedMoveUsed: boolean
+  roundChargedMovesInitiated: boolean
+  roundShieldUsed: boolean
+
+  chargedMinigameTime: number
+  usePriority: boolean
+
+  chargeAmount: number
+  playerUseShield: boolean
+
+                /* [HP    , Energy], [HP    , Energy] */
+  startingValues: [[number, number], [number, number]]
+
+  buffChanceModifier: number /* 0.0 ... 1.0 */
+
+  // updateCallback: InterfaceCallbackFunction /* FIXME */
 }

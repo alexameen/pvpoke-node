@@ -3,3 +3,5 @@ export enum TimelineAction {
   CHARGED = 'charged',
   WAIT    = 'wait'
 }
+
+export type TurnMessage = String
